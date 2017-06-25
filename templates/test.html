@@ -1,0 +1,105 @@
+<html>
+<head>
+  <title>Test Interface</title>
+  <script type=text/javascript src="{{
+  url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
+
+  <link rel="stylesheet" href="{{
+  url_for('static', filename='bootstrap.min.css') }}" />
+
+  <!-- submit our json and display what's returned -->
+  <script>
+    var submit_success = true;
+    var submit_timer = null
+
+    function sumbit_stop_error(){
+      submit_success = false;
+    }
+
+    function sumbit_stop_success(){
+      submit_success = true;
+    }
+
+    function sumbit_start_timer(){
+      submit_success = null;
+      $('#btnJsonSumbit').removeClass('btn-primary')
+                         .addClass('btn-success');
+
+      var submit_timer = setTimeout(function(){
+        if (submit_success===null){
+          return;
+        }
+        else{
+          clearTimeout(submit_timer);
+
+          if(submit_success===true){
+            $('#btnJsonSumbit')
+              .removeClass('btn-success')
+              .addClass('btn-primary');
+          }
+          else{
+            $('#btnJsonSumbit')
+              .removeClass('btn-success')
+              .addClass('btn-danger')
+          }
+        }
+      }, 500);
+    }
+
+    function submit_json(){
+      json_data = $('#txtJsonInput')[0].value;
+      $('#txtJsonReturn')[0].innerHTML = "Loading...";
+      sumbit_start_timer();
+      $.ajax({
+        type: "POST",
+        url: "/",
+        data: json_data,
+        success: function(data){
+          sumbit_stop_success();
+          $('#txtJsonReturn')[0].innerHTML = JSON.stringify(data, null, 2);
+        },
+        error: function(data){
+          sumbit_stop_error();
+          $('#txtJsonReturn')[0].innerHTML = "Error Getting Data";
+        },
+        dataType: "json",
+        contentType : "application/json"
+      });
+    };
+  </script>
+
+</head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <h1>Test Panel</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <br />
+          <textarea id="txtJsonInput" class="form-control" rows="10">[Input Data]</textarea>
+          <br />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <input
+            value="Test Input JSON"
+            type="submit"
+            id="btnJsonSumbit"
+            class="btn btn-primary btn-lg btn-block"
+            onclick="submit_json()">
+          </input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <br />
+          <pre id="txtJsonReturn">[Returned Data]</pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
