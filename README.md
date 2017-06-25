@@ -4,7 +4,7 @@ This the the simplest handler for an Alexa Skill using Zappa and Flask that I've
 
 I was having a nightmare getting [flask-ask](https://github.com/johnwheeler/flask-ask) to behave with Python3 and Zappa so came up with this to get me moving. Hopefully it's useful for someone else.
 
-*For anyone wondering, I was getting a NoneType error whenever I importing the Ask library from flask-ask*
+*For anyone wondering, I was getting a NoneType error whenever I importing the Ask library from flask-ask.*
 
 ## Installing and Deploying
 
