@@ -17,12 +17,13 @@ def build_reposonse(speech_text, card_title, card_content):
 def process_request(request_data):
     # Process request_data here and
     # build a suitable response
-    response = build_reposonse("speech", "card")
+    response = build_reposonse("speech", "card", "card_content")
     return response
 
 # Default request handler
+@app.route('/index', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
-def default_page():
+def index():
     if request.method == 'POST':
         return process_request(request.data)
     else:

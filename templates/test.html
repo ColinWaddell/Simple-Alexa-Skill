@@ -52,7 +52,7 @@
       sumbit_start_timer();
       $.ajax({
         type: "POST",
-        url: "/",
+        url: "{{ url_for('index') }}",
         data: json_data,
         success: function(data){
           sumbit_stop_success();
